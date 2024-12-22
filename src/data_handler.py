@@ -3,5 +3,5 @@ class DataHandler:
         self.api_client = api_client
 
     def fetch_market_data(self, symbol):
-        raw_data = self.api_client.get_market_data(symbol)
-        return raw_data["result"]
+        raw_data = self.api_client.query_kline(symbol=symbol)
+        return raw_data
