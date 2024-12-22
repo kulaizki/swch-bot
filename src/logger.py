@@ -1,14 +1,13 @@
 import logging
 import os
 
-if not os.path.exists("logs"):
-    os.makedirs("logs")
-
 def setup_logger():
     logger = logging.getLogger("BotLogger")
     logger.setLevel(logging.INFO)  
 
-    file_handler = logging.FileHandler("logs/bot.log")
+    log_dir = 'logs'
+
+    file_handler = logging.FileHandler(os.path.join(log_dir, 'bot.log'))
     file_handler.setLevel(logging.INFO)  
 
     console_handler = logging.StreamHandler()
