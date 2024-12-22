@@ -1,26 +1,28 @@
-import requests
-from config.settings import API_KEY, API_SECRET, BASE_URL
+from pybit.unified_trading import HTTP
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  
 
 class BybitAPI:
-    def __init__(self):
-        self.base_url = BASE_URL
-        self.api_key = API_KEY
-        self.api_secret = API_SECRET
+    def __init__(self, demo=True, testnet=False):
+        api_key = os.getenv("DEMO_API_KEY" if demo else "API_KEY") 
+        api_secret = os.getenv("DEMO_API_SECRET" if demo else "API_SECRET")
+
+        if not api_key or not api_secret:
+            raise ValueError("API_KEY or API_SECRET not set in environment variables.")
+
+        self.client = HTTP(
+            api_key=api_key,
+            api_secret=api_secret,
+            demo=demo,
+            testnet=testnet,
+        )
 
     def get_market_data(self, symbol):
-        endpoint = f"{self.base_url}/v2/public/tickers"
-        response = requests.get(endpoint, params={"symbol": symbol})
-        return response.json()
-
-    def place_order(self, symbol, side, qty, order_type="Market"):
-        endpoint = f"{self.base_url}/v2/private/order/create"
-        payload = {
-            "symbol": symbol,
-            "side": side,
-            "order_type": order_type,
-            "qty": qty,
-            "time_in_force": "GoodTillCancel",
-            "api_key": self.api_key,
-        }
-        response = requests.post(endpoint, json=payload)
-        return response.json()
+        try:
+            response = self.client.query_kline(symbol=symbol, interval="D")
+            return response
+        except Exception as e:
+            print(f"Error fetching market data: {str(e)}")
+            return None
