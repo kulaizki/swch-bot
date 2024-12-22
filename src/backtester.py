@@ -1,4 +1,5 @@
 import pandas as pd
+from src.swch import swch 
 
 class Backtester:
     def __init__(self, strategy):
