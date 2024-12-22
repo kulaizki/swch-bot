@@ -1,11 +1,10 @@
-from src.api_client import BybitAPI
-from src.data_handler import DataHandler
-from src.swch import swch
-from src.trade_executor import TradeExecutor
-from src.logger import setup_logger
+from api_client import BybitAPI
+from data_handler import DataHandler
+from strategy import swch
+from trade_executor import TradeExecutor
+from logger import setup_logger
 
 logger = setup_logger()
-
 
 def main():
     logger.info("Starting bot...")
