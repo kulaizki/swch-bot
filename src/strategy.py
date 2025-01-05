@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-class Swch:
+class swch:
     def generate_signal(self, market_data):
         if market_data is None or 'result' not in market_data or 'list' not in market_data['result'] or not market_data['result']['list']:
             print("invalid or empty market data")
